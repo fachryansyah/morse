@@ -23,6 +23,13 @@ import * as firebase from 'firebase'
 
 class ProfileScreen extends Component {
 
+    async removeContact(){
+        await firebase.database().ref('contacts/' + this.props.auth.user.username + '/' + this.props.navigation.getParam('username'))
+        .remove()
+        ToastAndroid.show('Contact has been remove!', ToastAndroid.LONG)
+        this.props.navigation.replace('Home')
+    }
+
     __renderProfilePic(){
         return(
             <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -32,13 +39,6 @@ class ProfileScreen extends Component {
                 />
             </View>
         )
-    }
-
-    async removeContact(){
-        await firebase.database().ref('contacts/' + this.props.auth.user.username + '/' + this.props.navigation.getParam('username'))
-        .remove()
-        ToastAndroid.show('Contact has been remove!', ToastAndroid.LONG)
-        this.props.navigation.replace('Home')
     }
 
     render(){
@@ -77,7 +77,7 @@ class ProfileScreen extends Component {
                         </Row>
                     </Button>
                     <Divider styleName="line" />
-                    <Button>
+                    <Button onPress={() => this.props.navigation.navigate('Map')}>
                         <Row styleName="small">
                             <Icon name="address" />
                             <Text>Find location</Text>

@@ -63,8 +63,6 @@ class LoginScreen extends Component {
             await firebase.database().ref(userRef).once('value', async (data) => {
                 const userData = data.val()
 
-                console.log(userData)
-
                 const cacheUserToStorage = {
                     uid: res.user.uid,
                     email: res.user.email,

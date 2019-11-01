@@ -63,9 +63,9 @@ class HomeScreen extends Component {
             phone: userData.phone,
             status: userData.status,
             username: userData.username,
-            avatar: userData.avatar
+            avatar: userData.avatar,
+            token: userData.token
         }))
-
     }
 
     async getContactList(){
@@ -83,18 +83,11 @@ class HomeScreen extends Component {
                 contactList.push(JSON.parse(JSON.stringify(val)))
             })
 
-            // const contactList = Object.keys(contactObject).map(key => ({
-            //     ...contactObject[key]
-            // }));
-
-            console.log(contactList)
-
             this.setState({
                 contacts: contactList,
                 isLoading: false
             })
         })
-        // console.log(this.state.contacts)
     }
 
     openDrawer() {
@@ -105,8 +98,6 @@ class HomeScreen extends Component {
         if (!contact) {
             return null;
         }
-
-        // let data = JSON.parse(JSON.stringify(contact))
 
         return (
             <View>
@@ -158,7 +149,7 @@ class HomeScreen extends Component {
                     </Row>
                 </Button>
                 <Divider styleName="line" />
-                <Button>
+                <Button onPress={() => this.props.navigation.navigate('Setting')}>
                     <Row styleName="small">
                         <Icon name="settings" />
                         <Text>Settings</Text>

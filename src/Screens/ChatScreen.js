@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Alert } from 'react-native'
 import {
     Icon,
     View,
@@ -24,6 +24,7 @@ import Axios from 'axios'
 import { connect } from 'react-redux'
 import * as firebase from 'firebase'
 import { GiftedChat } from 'react-native-gifted-chat'
+import Geolocation from '@react-native-community/geolocation'
 
 class ChatScreen extends Component {
 
@@ -40,6 +41,7 @@ class ChatScreen extends Component {
     componentDidMount(){
         this.getDataReceiver()
         this.getMessages()
+        this.getLocationOfReceiver()
     }
 
     async getDataReceiver(){
@@ -68,7 +70,7 @@ class ChatScreen extends Component {
 
     refOn(callback){
         const reference = 'messages/' + this.props.navigation.getParam('username') + '/' + this.props.auth.user.username
-        firebase.database().ref(reference).on('child_added', (snapshot) => callback(this.parseSnapshot(snapshot)))
+        firebase.database().ref(reference).limitToLast(20).on('child_added', (snapshot) => callback(this.parseSnapshot(snapshot)))
         this.setState({
             isLoading: false
         })
@@ -79,6 +81,17 @@ class ChatScreen extends Component {
             this.setState((previousState) => ({
                 messages: GiftedChat.append(previousState.messages, message),
             }))
+        })
+    }
+
+    getLocationOfReceiver(){
+        firebase.database().ref(`locations/${this.props.navigation.getParam('username')}/${this.props.auth.user.username}`).on('value', (snapshot) => {
+            if (snapshot.val()) {
+                this.props.navigation.navigate('Map', {
+                    location: snapshot,
+                    username: this.props.navigation.getParam('username')
+                })
+            }
         })
     }
 
@@ -102,8 +115,6 @@ class ChatScreen extends Component {
                 createdAt: firebase.database.ServerValue.TIMESTAMP
             })
 
-            console.log(this.props.navigation.getParam('token'))
-
             Axios.get('https://us-central1-morse-937ed.cloudfunctions.net/pushNotification?title=@' + this.props.auth.user.username + '&body=test&token=' + this.state.receiver.token.token)
             .then((res) => {
                 console.log(res.data)
@@ -115,8 +126,19 @@ class ChatScreen extends Component {
 
     }
 
-    __renderChatAvatar(data){
-        console.log(data.message)
+    async sendLocation(){
+        Geolocation.getCurrentPosition(
+            info => {
+                firebase.database().ref(`locations/${this.props.auth.user.username}/${this.props.navigation.getParam('username')}`).update({
+                    latitude: info.coords.latitude,
+                    longitude: info.coords.longitude
+                })
+            },
+            error => {
+                Alert.alert('Error', error.message)
+            },
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+        )
     }
 
     __renderMessages(){
@@ -132,6 +154,11 @@ class ChatScreen extends Component {
                     user={{
                         _id: this.props.auth.user.username,
                     }}
+                    renderActions={() => (
+                        <Button styleName="clear secondary" style={{ height: '100%', justifyContent: 'center' }} onPress={() => this.sendLocation()}>
+                            <Icon name="address" />
+                        </Button>
+                    )}
                 />
             )
         }
@@ -152,7 +179,8 @@ class ChatScreen extends Component {
                     <View style={{ flex: 70, justifyContent:'center' }}>
                         <Title>{this.props.navigation.getParam('fullname')}</Title>
                     </View>
-                    <View style={{ flex: 15, justifyContent:'center' }}>
+                    <View style={{ flex: 15, justifyContent:'center', flexDirection: 'row', padding: 12 }}>
+
                         <Button onPress={() => this.props.navigation.navigate('Profile', {
                             avatar: this.props.navigation.getParam('avatar'),
                             fullname: this.props.navigation.getParam('fullname'),

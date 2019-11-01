@@ -9,6 +9,8 @@ import LoginScreen from './Screens/LoginScreen'
 import RegisterScreen from './Screens/RegisterScreen'
 import LoadingScreen from './Screens/LodingScreen'
 import AddContactScreen from './Screens/AddContactScreen'
+import SettingScreen from './Screens/SettingScreen'
+import MapScreen from './Screens/MapScreen'
 
 
 const AppNavigator = createStackNavigator({
@@ -32,6 +34,12 @@ const AppNavigator = createStackNavigator({
     },
     Loading: {
         screen: LoadingScreen
+    },
+    Setting: {
+        screen: SettingScreen
+    },
+    Map:{
+        screen: MapScreen
     }
 }, {
     initialRouteName: 'Loading',
