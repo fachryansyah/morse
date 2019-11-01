@@ -178,17 +178,6 @@ class RegisterScreen extends Component {
                             
                             {this.__renderButtonRegister()}
 
-                            <Row style={{ marginTop: 12, justifyContent: 'center' }}>
-                                <Button>
-                                    <FontAwesomeIcon name="google" color="#000" size={20} style={{ marginRight: 8 }} />
-                                    <Text>Google </Text>
-                                </Button>
-                                <Button>
-                                    <Icon name="facebook" />
-                                    <Text>Facebook </Text>
-                                </Button>
-                            </Row>
-
                             <Button styleName="clear" style={{ marginTop: 6 }} onPress={() => this.props.navigation.replace('Login')}>
                                 <Text>Already have account ? sign in</Text>
                             </Button>

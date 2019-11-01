@@ -153,17 +153,6 @@ class LoginScreen extends Component {
                             
                             {this.__renderButtonSignIn()}
 
-                            <Row style={{ marginTop: 12, justifyContent: 'center' }}>
-                                <Button onPress={() => this.loginWithGoogle()}>
-                                    <FontAwesomeIcon name="google" color="#000" size={20} style={{ marginRight: 8 }} />
-                                    <Text>Google </Text>
-                                </Button>
-                                <Button>
-                                    <Icon name="facebook" />
-                                    <Text>Facebook </Text>
-                                </Button>
-                            </Row>
-
                             <Button styleName="clear" style={{ marginTop: 6 }} onPress={() => this.props.navigation.replace('Register')}>
                                 <Text>Don't have account ? register here..</Text>
                             </Button>

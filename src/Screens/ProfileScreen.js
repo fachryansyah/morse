@@ -77,13 +77,6 @@ class ProfileScreen extends Component {
                         </Row>
                     </Button>
                     <Divider styleName="line" />
-                    <Button onPress={() => this.props.navigation.navigate('Map')}>
-                        <Row styleName="small">
-                            <Icon name="address" />
-                            <Text>Find location</Text>
-                        </Row>
-                    </Button>
-                    <Divider styleName="line" />
                     <Button onPress={() => {
                         Alert.alert(
                             'Remove This Contact',
