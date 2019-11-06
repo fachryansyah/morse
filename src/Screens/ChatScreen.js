@@ -115,7 +115,7 @@ class ChatScreen extends Component {
                 createdAt: firebase.database.ServerValue.TIMESTAMP
             })
 
-            Axios.get('https://us-central1-morse-937ed.cloudfunctions.net/pushNotification?title=@' + this.props.auth.user.username + '&body=test&token=' + this.state.receiver.token.token)
+            Axios.get('https://us-central1-morse-937ed.cloudfunctions.net/pushNotification?title=@' + this.props.auth.user.username + '&body=' + text + '&token=' + this.state.receiver.token.token)
             .then((res) => {
                 console.log(res.data)
             })
