@@ -13,18 +13,21 @@ import {
 
 import { Provider } from 'react-redux'
 import Store from './src/Redux/store'
-
 import * as firebase from "firebase"
-
 import Navigator from './src/Navigator'
-
 import PushNotification from 'react-native-push-notification'
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  STORAGE_BUCKET
+} from 'react-native-dotenv'
 
 const config = {
-  apiKey: "AIzaSyCngLBONP7ygZCQSzCqIVZircuvBNAzur0",
-  authDomain: "morse-937ed.firebaseapp.com",
-  databaseURL: "https://morse-937ed.firebaseio.com",
-  storageBucket: "morse-937ed"
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  storageBucket: STORAGE_BUCKET
 }
 
 if (!firebase.apps.length) {

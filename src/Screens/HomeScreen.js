@@ -55,7 +55,7 @@ class HomeScreen extends Component {
         const userDataFromStorage = await AsyncStorage.getItem('@user')
         const userData = JSON.parse(userDataFromStorage)
 
-        this.props.dispatch(authenticate({
+        await this.props.dispatch(authenticate({
             uid: userData.uid,
             email: userData.email,
             emailVerified: userData.emailVerified,
@@ -201,7 +201,7 @@ class HomeScreen extends Component {
                             </Button>
                         }
                         rightComponent={
-                            <Button onPress={() => alert('plus')}>
+                            <Button onPress={() => alert('Up Coming gan..')}>
                                 <Icon name="search" />
                             </Button>
                         }

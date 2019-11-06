@@ -30,7 +30,8 @@ class AddContactScreen extends Component {
         super(props)
         this.state = {
             search: '',
-            searchResults: []
+            searchResults: [],
+            isLoading: false
         }
     }
 
@@ -41,11 +42,17 @@ class AddContactScreen extends Component {
     }
 
     async findUser(){
+        
+        this.setState({
+            isLoading: true
+        })
+
         firebase.database().ref('users/' + this.state.search).on('value', async (data) => {
             const userData = data.val()
 
             this.setState({
-                searchResults: [userData]
+                searchResults: [userData],
+                isLoading: false
             })
         })
     }
@@ -77,8 +84,26 @@ class AddContactScreen extends Component {
         );
     }
 
-    render(){
+    __renderSearchList(){
         const {navigate} = this.props.navigation
+        if (this.state.isLoading) {
+            return(
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <Spinner />
+                </View>
+            )
+        }else{
+            return(
+                <ListView
+                    autoHideHeader={true}
+                    data={this.state.searchResults}
+                    renderRow={(searchResult) => this.__renderSearchResult(searchResult, navigate)}
+                />
+            )
+        }
+    }
+
+    render(){
         return(
             <Screen>
                 <NavigationBar
@@ -90,7 +115,7 @@ class AddContactScreen extends Component {
                     }
                     centerComponent={<Title>ADD CONTACT</Title>}
                 />
-                <View style={{ backgroundColor: '#f5f5f5' }}>
+                <View style={{ backgroundColor: '#f5f5f5', flex: 1 }}>
                     <View styleName="horizontal">
                         <TextInput
                             placeholder={'Find by username'}
@@ -103,11 +128,7 @@ class AddContactScreen extends Component {
                         </Button>
                     </View>
                     
-                    <ListView
-                        autoHideHeader={true}
-                        data={this.state.searchResults}
-                        renderRow={(searchResult) => this.__renderSearchResult(searchResult, navigate)}
-                    />
+                    {this.__renderSearchList()}
 
                 </View>
 

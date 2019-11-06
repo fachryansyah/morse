@@ -44,16 +44,29 @@ class RegisterScreen extends Component {
 
     async registerAccount(){
 
-        this.setState({
-            isLoading: true
-        })
-
         try {
+
+            // check username format
+            const validateUsername = /^[a-zA-Z0-9_]+$/
+            if (!this.state.username.match(validateUsername)) {
+                return alert("Username not valid, must be a - z, A - Z, with _ underscore")
+            }
+
+            // check username is already in use
+            firebase.database().ref(`users/${this.state.username}`).once('value', (snapshot) => {
+                if (snapshot.val()) {
+                    return alert('Username already exists')
+                }
+            })
 
             //check if password match
             if (this.state.password !== this.state.confirm_password) {
                 return alert("Password doesn't match")
             }
+
+            this.setState({
+                isLoading: true
+            })
 
             const registerUser = await firebase.auth()
                 .createUserWithEmailAndPassword(this.state.email, this.state.password);

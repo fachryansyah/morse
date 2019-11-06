@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Alert } from 'react-native'
+import { StyleSheet, Alert, ToastAndroid } from 'react-native'
 import {
     Icon,
     View,
@@ -133,6 +133,7 @@ class ChatScreen extends Component {
                     latitude: info.coords.latitude,
                     longitude: info.coords.longitude
                 })
+                ToastAndroid.show("Your location successfully shared", ToastAndroid.LONG)
             },
             error => {
                 Alert.alert('Error', error.message)
@@ -155,7 +156,23 @@ class ChatScreen extends Component {
                         _id: this.props.auth.user.username,
                     }}
                     renderActions={() => (
-                        <Button styleName="clear secondary" style={{ height: '100%', justifyContent: 'center' }} onPress={() => this.sendLocation()}>
+                        <Button
+                            styleName="clear secondary"
+                            style={{ height: '100%', justifyContent: 'center' }}
+                            onPress={() => Alert.alert(
+                                'Share your location',
+                                `Are you sure want to share your location to ${this.props.navigation.getParam('fullname')}`,
+                                [
+                                  {
+                                    text: 'Cancel',
+                                    onPress: () => console.log('Cancel Pressed'),
+                                    style: 'cancel',
+                                  },
+                                  {text: 'OK', onPress: () => this.sendLocation()},
+                                ],
+                                {cancelable: false},
+                            )}
+                        >
                             <Icon name="address" />
                         </Button>
                     )}
