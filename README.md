@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 [![Code](https://camo.githubusercontent.com/65f7d034f575d55d73f27883473847130e1ead2e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652532305374796c652d5374616e646172642d79656c6c6f772e737667)](https://standardjs.com)
 
-![](https://s5.gifyu.com/images/vokoscreen-2019-11-06_23-22-47.gif)
+<p align="center">
+    <img title="dashboard" src="https://s5.gifyu.com/images/vokoscreen-2019-11-06_23-22-47.gif" />
+</p>
 
 ## Table Of Contents
 
